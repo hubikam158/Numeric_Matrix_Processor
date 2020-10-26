@@ -1,0 +1,7 @@
+# Project exclude paths
+/.gradle/
+/Numeric Matrix Processor/task/build/
+/Numeric Matrix Processor/task/out/
+/Numeric Matrix Processor/task/out/production/classes/
+/Problems/Check prefix ignoring the case/out/
+/Problems/Check prefix ignoring the case/out/production/classes/
