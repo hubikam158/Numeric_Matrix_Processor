@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -11,7 +12,24 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Numeric Matrix Processor/task" />
+            <option value="$PROJECT_DIR$/Problems/Area of parallelogram" />
+            <option value="$PROJECT_DIR$/Problems/Arithmetic average" />
+            <option value="$PROJECT_DIR$/Problems/Calculator with four methods" />
+            <option value="$PROJECT_DIR$/Problems/Call me awesome" />
             <option value="$PROJECT_DIR$/Problems/Check prefix ignoring the case" />
+            <option value="$PROJECT_DIR$/Problems/Decompose a math function" />
+            <option value="$PROJECT_DIR$/Problems/First, second, third" />
+            <option value="$PROJECT_DIR$/Problems/Fix the method to print strings in the reverse order" />
+            <option value="$PROJECT_DIR$/Problems/Heron's formula" />
+            <option value="$PROJECT_DIR$/Problems/N-th power" />
+            <option value="$PROJECT_DIR$/Problems/Number of decompositions" />
+            <option value="$PROJECT_DIR$/Problems/Pow" />
+            <option value="$PROJECT_DIR$/Problems/Rotate a rectangle array" />
+            <option value="$PROJECT_DIR$/Problems/Size of parts" />
+            <option value="$PROJECT_DIR$/Problems/Squirrels and nuts" />
+            <option value="$PROJECT_DIR$/Problems/Sum of numbers in the range" />
+            <option value="$PROJECT_DIR$/Problems/The angle between vectors" />
+            <option value="$PROJECT_DIR$/Problems/The sign of a number" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

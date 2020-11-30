@@ -301,6 +301,44 @@ files:
 
     }
   learner_created: false
+- name: src/processor/Matrix.java
+  visible: true
+  text: |
+    package processor;
+
+    public class Matrix {
+
+        private final int rows;
+        private final int columns;
+        private int[][] matrix;
+
+        public Matrix(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            this.matrix = new int[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public int[][] getMatrix() {
+            return matrix;
+        }
+
+        public void setMatrix(int[][] matrix) {
+            this.matrix = matrix;
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/60/stages/325/implement
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/60/stages/325/implement">JetBrains
+    Academy</a>
+  time: Sun, 01 Nov 2020 16:21:45 UTC
+record: 3

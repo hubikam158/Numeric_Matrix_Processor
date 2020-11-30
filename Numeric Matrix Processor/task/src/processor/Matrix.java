@@ -4,12 +4,12 @@ public class Matrix {
 
     private final int rows;
     private final int columns;
-    private int[][] matrix;
+    private double[][] matrix;
 
     public Matrix(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.matrix = new int[rows][columns];
+        this.matrix = new double[rows][columns];
     }
 
     public int getRows() {
@@ -20,11 +20,11 @@ public class Matrix {
         return columns;
     }
 
-    public int[][] getMatrix() {
+    public double[][] getMatrix() {
         return matrix;
     }
 
-    public void setMatrix(int[][] matrix) {
+    public void setMatrix(double[][] matrix) {
         this.matrix = matrix;
     }
 }
