@@ -26,6 +26,9 @@ public class Main {
                 case 5:
                     calculateDeterminant();
                     break;
+                case 6:
+                    inverseMatrix();
+                    break;
                 case 0:
                     exit = true;
                     break;
@@ -42,6 +45,7 @@ public class Main {
                 "\n3. Multiply matrices" +
                 "\n4. Transpose matrix" +
                 "\n5. Calculate a determinant" +
+                "\n6. Inverse matrix" +
                 "\n0. Exit");
     }
 
@@ -56,7 +60,7 @@ public class Main {
         System.out.println("The result is:");
         for (int i = 0; i < matrix.getRows(); i++) {
             for (int j = 0; j < matrix.getColumns(); j++) {
-                System.out.print(matrix.getMatrix()[i][j] + " ");
+                System.out.print(String.format("%6.2f", matrix.getMatrix()[i][j]) + " ");
             }
             System.out.println();
         }
@@ -200,7 +204,7 @@ public class Main {
         double[][] temp = new double[matrix.getColumns()][matrix.getRows()];
         for (int i = 0; i < matrix.getColumns(); i++) {
             for (int j = 0; j < matrix.getRows(); j++) {
-                temp[i][j] = matrix.getMatrix()[matrix.getRows()-1-j][matrix.getColumns()-1-i];
+                temp[i][j] = matrix.getMatrix()[matrix.getRows() - 1 - j][matrix.getColumns() - 1 - i];
             }
         }
         finalMatrix.setMatrix(temp);
@@ -212,7 +216,7 @@ public class Main {
         double[][] temp = new double[matrix.getRows()][matrix.getColumns()];
         for (int i = 0; i < matrix.getRows(); i++) {
             for (int j = 0; j < matrix.getColumns(); j++) {
-                temp[i][j] = matrix.getMatrix()[i][matrix.getColumns()-1-j];
+                temp[i][j] = matrix.getMatrix()[i][matrix.getColumns() - 1 - j];
             }
         }
         finalMatrix.setMatrix(temp);
@@ -224,7 +228,7 @@ public class Main {
         double[][] temp = new double[matrix.getRows()][matrix.getColumns()];
         for (int i = 0; i < matrix.getRows(); i++) {
             for (int j = 0; j < matrix.getColumns(); j++) {
-                temp[i][j] = matrix.getMatrix()[matrix.getRows()-1-i][j];
+                temp[i][j] = matrix.getMatrix()[matrix.getRows() - 1 - i][j];
             }
         }
         finalMatrix.setMatrix(temp);
@@ -240,37 +244,56 @@ public class Main {
 
     private static double calculateDeterminant(Matrix matrix) {
         if (matrix.getRows() == 2) {
-            return matrix.getMatrix()[0][0] * matrix.getMatrix()[1][1] -
-                    matrix.getMatrix()[0][1] * matrix.getMatrix()[1][0];
+            return calculateDeterminant2x2(matrix);
         } else if (matrix.getRows() > 2) {
-            Matrix minorMatrix = new Matrix(matrix.getRows() - 1, matrix.getColumns() - 1);
-            double[][] temp = new double[minorMatrix.getRows()][minorMatrix.getColumns()];
             double result = 0d;
-            int x = 0;
-            int z = 0;
             for (int j = 0; j < matrix.getColumns(); j++) {
-                for (int i = 0; i < minorMatrix.getRows(); i++) {
-                    for (int k = 0; k < matrix.getColumns(); k++) {
-                        if (k != j) {
-                            temp[x][z] = matrix.getMatrix()[x+1][k];
-                            z++;
-                        }
-                    }
-                    x++;
-                    z = 0;
-                }
-                x = 0;
-
-                minorMatrix.setMatrix(temp);
-                result += calculateCofactor(matrix.getMatrix()[0][j], j) * calculateDeterminant(minorMatrix);
+                result += matrix.getMatrix()[0][j] * createCofactorMatrix(matrix).getMatrix()[0][j];
             }
             return result;
         }
         return matrix.getMatrix()[0][0];
     }
 
-    private static double calculateCofactor(double number, int j) {
-        return j % 2 == 0 ? number : -1 * number;
+    private static double calculateDeterminant2x2(Matrix matrix) {
+        return matrix.getMatrix()[0][0] * matrix.getMatrix()[1][1] -
+                matrix.getMatrix()[0][1] * matrix.getMatrix()[1][0];
+    }
+
+    private static Matrix createMinorMatrix(Matrix matrix, int i, int j) {
+        Matrix minorMatrix = new Matrix(matrix.getRows() - 1, matrix.getColumns() - 1);
+        double[][] temp = new double[minorMatrix.getRows()][minorMatrix.getColumns()];
+        for (int p = 0; p < matrix.getRows(); p++) {
+            for (int q = 0; q < matrix.getColumns(); q++) {
+                if (q > j && p > i) {
+                    temp[p - 1][q - 1] = matrix.getMatrix()[p][q];
+                } else if (q > j && p < i) {
+                    temp[p][q - 1] = matrix.getMatrix()[p][q];
+                } else if (q < j && p > i) {
+                    temp[p - 1][q] = matrix.getMatrix()[p][q];
+                } else if (q < j && p < i) {
+                    temp[p][q] = matrix.getMatrix()[p][q];
+                }
+            }
+        }
+        minorMatrix.setMatrix(temp);
+        return minorMatrix;
+    }
+
+    private static Matrix createCofactorMatrix(Matrix matrix) {
+        Matrix cofactorMatrix = new Matrix(matrix.getRows(), matrix.getColumns());
+        double[][] temp = new double[matrix.getRows()][matrix.getColumns()];
+        for (int i = 0; i < matrix.getRows(); i++) {
+            for (int j = 0; j < matrix.getColumns(); j++) {
+                temp[i][j] = setSign(i, j) * calculateDeterminant(createMinorMatrix(matrix,i, j));
+            }
+        }
+        cofactorMatrix.setMatrix(temp);
+        return cofactorMatrix;
+    }
+
+    private static double setSign(int i, int j) {
+        return (i + j) % 2 == 0 ? 1 : -1;
     }
 
     private static void calculateDeterminant() {
@@ -279,6 +302,20 @@ public class Main {
             System.out.println("The result is:\n" + (calculateDeterminant(matrix)));
         } else {
             printError();
+        }
+    }
+
+    private static Matrix inverseMatrix(Matrix matrix) {
+        return multiplyMatrixByConstant(transposeAlongMainDiagonal(createCofactorMatrix(matrix)),
+                1 / calculateDeterminant(matrix));
+    }
+
+    private static void inverseMatrix() {
+        Matrix matrix = createMatrix();
+        if (isSquare(matrix) && calculateDeterminant(matrix) != 0) {
+            printResult(inverseMatrix(matrix));
+        } else {
+            System.out.println("This matrix doesn't have an inverse.");
         }
     }
 }
